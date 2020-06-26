@@ -1,5 +1,6 @@
-package board;
+package board.snapshot;
 
+import model.Result;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
@@ -7,27 +8,27 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static board.ScoreSnapshot.Snapshot.*;
+import static board.snapshot.ShapeSnapshot.Snapshot.*;
 
-final class ScoreSnapshot {
+public final class ShapeSnapshot {
 
     private final List<String> snapshot;
     private final boolean isNameSnapShot;
 
-    private ScoreSnapshot(final List<String> snapshot, final boolean isNameSnapShot){
+    private ShapeSnapshot(final List<String> snapshot, final boolean isNameSnapShot){
         this.snapshot = snapshot;
         this.isNameSnapShot = isNameSnapShot;
     }
 
-    static ScoreSnapshot createSnapShotByName(final String name){
-        return new ScoreSnapshot(Collections.singletonList(name), true);
+    public static ShapeSnapshot createSnapShotByName(final String name){
+        return new ShapeSnapshot(Collections.singletonList(name), true);
     }
 
-    static ScoreSnapshot createSnapShotEmpty(final int round){
-        return new ScoreSnapshot(new ArrayList(){{ add(StringUtils.EMPTY); }}, false);
+    public static ShapeSnapshot createSnapShotEmpty(final int round){
+        return new ShapeSnapshot(new ArrayList(){{ add(StringUtils.EMPTY); }}, false);
     }
 
-    Stream<String> toStream(){
+    public Stream<String> toStream(){
         if(isNameSnapShot){
             return Stream.of(String.join(BAR, snapshot));
         }
@@ -70,9 +71,9 @@ final class ScoreSnapshot {
         return Stream.of(String.join(BAR, drawSnapshot));
     }
 
-    public void add(final String score){
+    public void add(final Result result){
         this.removeFirstEmptySnapshotIfExist();
-        snapshot.add(score);
+        snapshot.add(result.getScore());
     }
 
     private void removeFirstEmptySnapshotIfExist(){

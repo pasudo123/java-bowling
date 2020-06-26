@@ -1,42 +1,31 @@
 package board;
 
-import frame.BowlingFrame;
-import frame.impl.FinalFrame;
-import frame.impl.NormalFrame;
+import model.Result;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
-
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
+import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DisplayName("점수 상태는")
+@DisplayName("스코어 상태판은")
 class ScoreStatusTest {
 
-    private static final int LAST_NUMBER_OF_FRAME = 10;
-
-    @ParameterizedTest
-    @MethodSource("provideScoreStatus")
-    @DisplayName("new 예약어를 통해 생성된다.")
-    public void constructor_UseNewKeyword_CreateSuccess(final String name, final List<BowlingFrame> bowlingFrames) {
-        // when
-        final ScoreStatus scoreStatus = new ScoreStatus(name, bowlingFrames);
-
-        // then
+    @Test
+    @DisplayName("생성된다.")
+    public void constructorTest(){
+        final ScoreStatus scoreStatus = new ScoreStatus();
         assertThat(scoreStatus).isNotNull();
     }
 
-    private static Stream<Arguments> provideScoreStatus() {
-        return Stream.of(
-                Arguments.of("KOK", IntStream.rangeClosed(1, LAST_NUMBER_OF_FRAME)
-                        .mapToObj(i -> (i == LAST_NUMBER_OF_FRAME) ? new FinalFrame() : new NormalFrame())
-                        .collect(Collectors.toList()))
+    @Test
+    @DisplayName("생성되고, 11개의 모양판이 만들어진다.")
+    public void constructorTest_ShouldReturn_11(){
+        final ScoreStatus scoreStatus = new ScoreStatus();
 
-        );
+    }
+
+    @Test
+    @DisplayName("점수 현황판을 채운다.")
+    public void fillScoreByResultTest(){
+//        final Result result = new Result();
     }
 }

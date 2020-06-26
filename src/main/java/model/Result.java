@@ -31,37 +31,49 @@ public class Result {
         this.trialOrder = trialOrder;
     }
 
-    public int getCurrentFrameNumber(){
+    public int getCurrentFrameNumber() {
         return frameNumber.number();
     }
 
-    public String getScore(){
+    public int getPreviousFrameNumberByStep(final int step){
+        return frameNumber.number() - step;
+    }
+
+    public String getScore() {
         return String.valueOf(overturnScore.getOverturnPins());
     }
 
-    public Result attach(final BowlingBoard bowlingBoard){
+    public Result attach(final BowlingBoard bowlingBoard) {
         return new Result(frameNumber, overturnScore, frameResult, trialOrder, bowlingBoard);
     }
 
-    public BowlingBoard getCurrentBowlingBoard(){
+    public BowlingBoard getCurrentBowlingBoard() {
         return bowlingBoard;
     }
 
-    public boolean isNextRound(){
+    public boolean isStrike(){
+        return frameResult.isStrike();
+    }
+
+    public boolean isSpare(){
+        return frameResult.isSpare();
+    }
+
+    public boolean isNextRound() {
         return (frameResult.isStrike()
                 || frameResult.isSpare()
                 || this.isNormalFrameLastTrial());
     }
 
-    public boolean isEnd(){
-        return (isFinalFrameLastTrial() && frameResult.isNormal());
+    public boolean isEnd() {
+        return (isFinalFrameLastTrial() && (frameResult.isBonus() || frameResult.isNormal()));
     }
 
-    private boolean isNormalFrameLastTrial(){
+    private boolean isNormalFrameLastTrial() {
         return (trialOrder.getOrder() == 2 && frameNumber.number() != 10);
     }
 
-    private boolean isFinalFrameLastTrial(){
+    private boolean isFinalFrameLastTrial() {
         return (trialOrder.getOrder() == 2 && frameNumber.number() == 10);
     }
 }
